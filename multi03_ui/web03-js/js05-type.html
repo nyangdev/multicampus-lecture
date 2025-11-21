@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script>
+        function jsType() {
+            let variable01 = "문자";
+
+            console.log(variable01 + "의 타입 : " + typeof(variable01)); // string
+
+            variable01 = 10;
+            console.log(variable01 + "의 타입 : " + typeof(variable01)); // number
+
+            variable01 = true;
+            console.log(variable01 + "의 타입 : " + typeof(variable01)); // boolean
+
+            variable01 = null; // null 타입 싱글톤 객체
+            console.log(variable01 + "의 타입 : " + typeof(variable01)); // object
+
+            let variable02;
+
+            console.log(variable02 + "의 타입 : " + typeof(variable02)); // undefined
+
+            variable02 = Symbol("symbol")
+            // console.log(variable02 + "의 타입 : " + typeof(variable02))
+            console.log(typeof(variable02));
+
+            // 1+e24
+            variable02 = 1000000000000000000000000;
+            console.log(variable02 + "의 타입 : " + typeof(variable02));
+
+            variable02 = 1000000000000000000000000n;
+            console.log(variable02 + "의 타입 : " + typeof(variable02)); // bigint
+
+            variable02 = {}
+            console.log(variable02 + "의 타입 : " + typeof(variable02));
+
+            variable02 = function() {
+                console.log("function type");
+            }
+            console.log(variable02 + "의 타입 : " + typeof(variable02));
+
+            variable02 = ["array", "type"];
+            console.log(variable02 + "의 타입 : " + typeof(variable02));
+
+            variable02 = /hello/;
+            console.log(variable02 + "의 타입 : " + typeof(variable02));
+
+        }
+
+    </script>
+
+</head>
+<body>
+    
+    <dd>
+        <dt onclick="jsType();">type</dt>
+        <dd>
+            <!-- 변수가 참조하는게 값 그 자체 -->
+             <!-- 원시 타입 -->
+            <dt>primitive</dt>
+            <dd>String</dd>
+            <dd>Number</dd>
+            <dd>Boolean</dd>
+            <dd>Null</dd>
+            <dd>Undefined</dd>
+            <dd>Symbol</dd>
+            <dd>BigInt</dd>
+        </dd>
+
+        <dd>
+            <!-- 객체 -->
+             <!-- 참조 타입 -->
+            <dt>reference</dt> 
+            <dd>Function</dd>
+            <dd>Object</dd>
+            <dd>Array</dd>
+            <dd>RegExp</dd>
+        </dd>
+    </dd>
+</body>
+</html>

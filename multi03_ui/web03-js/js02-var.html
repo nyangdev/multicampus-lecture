@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script>
+        function variable() {
+            var a = 1;
+            console.log(a);
+
+            let b = "two";
+            console.log(b);
+
+            const c = "three";
+            console.log(c);
+
+            b = 2;
+            console.log(b);
+
+            // const는 상수!
+            /*
+            c = 3;
+            console.log(c);
+            */
+
+            // 변수 키워드를 선언하지 않아도 사용은 가능하나, 지양!
+            d = 4;
+            console.log(d);
+
+            // 변수 선언만 하면?
+            var e;
+            console.log(e);
+
+            let f;
+            console.log(f);
+
+            e = 5;
+            f = 6;
+            console.log(e);
+            console.log(f);
+
+            // const는 상수이기 때문에 선언하면서 바로 정의까지 해줘야 함!
+            /*
+            const g;
+            console.log(g);
+            */
+
+            // 비구조화 할당
+            const [g, h] = [10, 20];
+            console.log(g);
+            console.log(h);
+        }
+
+        function scope() {
+            {
+                var varScope = "var";
+                let letScope = "let";
+                
+                console.log("block : " + varScope);
+                console.log("block : " + letScope);
+            }
+
+            console.log("function : " + varScope);
+            console.log("function : " + letScope);
+        }
+
+        function hoisting() {
+            // undefined
+            // var 변수가 함수의 최상위로 올라가버렸다 (값은 안가져감)
+            console.log(hoi);
+            var hoi = 1;
+
+            // reference error!
+            console.log(ref);
+            let ref = 2;
+        }
+
+        var name01 = "dongheon";
+        let name02 = "lee";
+        function notVar() {
+            console.log("전역변수 : " + name01);
+            console.log("전역변수 : " + name02);
+
+            console.log("window 객체 : " + window.name01);
+            console.log("window 객체 : " + window.name02);
+        }
+
+    </script>
+
+</head>
+<body>
+    
+    <pre>
+        종류
+        var 변수 = 값;
+        let 변수 = 값;
+        const 상수 = 값;
+        *타입 추론*
+
+        변수 선언 규칙
+        - 대소문자 구분
+        - 영문, $, _로 시작
+        - 영문, $, _, 숫자 사용 가능
+        - 키워드(예약어) 사용 불가
+        <button onclick="variable()">변수 선언</button>
+
+        Scope
+        - var 변수 : 함수 레벨
+        - let 변수 : 블록 레벨
+        - const 변수 : 블록 레벨
+        <button onclick="scope();">scope</button>
+
+        hoisting
+        - 변수 선언 이전에 변수가 참조
+        <button onclick="hoisting();">hoisting</button>
+
+        var 는 es6 이전 / let, const는 이후
+        <button onclick="notVar()";>var 사용 지양</button>
+
+    </pre>
+
+</body>
+</html>

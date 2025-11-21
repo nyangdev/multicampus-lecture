@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <pre onclick="objectMain();">
+        객체 (reference type)
+        - property : 속성
+        - function : 기능 (method)
+        - this : 객체 내부의 속성이나 기능을 정의
+        - prototype : 생성되어있는 객체의 확장
+    </pre>
+
+    <pre onclick="symbolMain();">
+        symbol (primitive type)
+        - 상수 정의
+        - 속성 은닉 (private)
+    </pre>
+
+    <script>
+
+        function object01() {
+            this.name = "홍길동";
+            const phone = "010-1234-5678";
+            this.getPhone = ()=>{return phone;}
+        }
+
+        // object literal
+        let obj02 = {
+            name: "kim-sd",
+            getPhone: function() {return "010-2222-3456"}
+        }
+
+        // key와 value의 이름이 같으면 생략 가능
+        const name = "이순신";
+        const phone = "010-333-4567";
+        const obj03 = {
+            name,
+            phone
+        }
+
+        const obj04 = {
+            name: "민지",
+            phone() {
+                return "010-3455-5678";
+            }
+        }
+
+        object01.prototype.addr = () => {return "nowon";};
+
+        function objectMain() {
+            // 함수를 가지고 객체 생성
+            const obj01 = new object01();
+
+            console.log(obj01.name);
+            console.log(obj01.getPhone);
+            console.log(obj01.getPhone());
+            console.log(obj01.phone);
+
+            console.log(obj02.name);
+            console.log(obj02.getPhone());
+
+            console.log(obj03["name"]);
+            console.log(obj03["phone"]);
+
+            console.log(obj04["name"]);
+            console.log(obj04["phone"]()); // a
+            console.log(obj04.phone()); // b
+            // a와 b는 동일한 표현식
+
+            console.log(obj01.addr());
+
+        }
+
+        function symbolMain() {
+            const symbol01 = Symbol();
+            // const symbol02 = new Symbol();
+            // Symbol은 new 사용 불가
+
+            const symbol02 = Symbol();
+
+            console.log(symbol01 == symbol02); // false
+
+            const RED = "red";
+            const red = "red";
+            console.log(RED == red); // true
+
+            const BLUE = Symbol("blue");
+            const blue = Symbol("blue");
+            console.log(BLUE == blue); // false
+
+            const COLOR = {
+                RED: Symbol("red"),
+                BLUE: Symbol("blue"),
+                GREEN: Symbol("green")
+            };
+            console.log(COLOR.RED);
+
+            // property 은닉
+            const user = {id: ""}
+            const password = Symbol();
+
+            user.id = "minji";
+            user[password] = 1234;
+
+            // for ~ in : for property in object
+            for (let item in user) {
+                console.log(item);
+            }
+
+            console.log(Object.keys(user));
+
+            console.log(Reflect.ownKeys(user));
+
+            // 전역 symbol
+            const class01 = Symbol.for("engineer");
+            const class02 = Symbol.for("engineer");
+            console.log(class01 == class02); //true
+
+            console.log(Symbol.keyFor(class01)); // engineer
+        }
+
+
+    </script>
+
+</body>
+</html>
