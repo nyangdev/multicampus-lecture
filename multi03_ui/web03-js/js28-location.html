@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <script>
+        /*
+            Browser Object Model
+            - window
+            - location
+            - history
+            - navigator
+            - screen
+            - XMLHttpRequest
+            ...
+        */
+
+        function locationTest() {
+            // location.reload();
+            // console.log(location.href);
+            // location.href = "https://www.naver.com";
+            // location.assign("https://www.google.com");
+
+            // index -> (js28)naver
+            // replace의 개념
+            location.replace("https://www.naver.com");
+
+        }
+
+        function historyTest() {
+            // history.back();
+            // history.forward();
+
+            // 음수 : 이전 페이지 / 양수 : 다음 페이지
+            history.go(-2);
+        }
+
+    </script>
+</head>
+<body>
+    <button onclick="locationTest();">location</button>
+    <br>
+    <button onclick="historyTest();">history</button>
+</body>
+</html>
