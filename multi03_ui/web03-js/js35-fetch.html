@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+
+    <pre>
+        fetch
+        - promise 기반
+        - http method (get, post, put, delete 등) 지원
+        - cors 내장 (cors : cross origin resource sharing)
+    </pre>
+
+    <table border="1" id="tb"></table>
+
+    <script>
+
+        const pre = document.querySelector("pre");
+
+        pre.addEventListener("click", ()=> {
+            // fetc(resource [, options])
+            // 생략되면 method는 get으로 동작!
+            fetch("emplist.json", {method: "GET"})
+            .then((resp)=>{return resp.json();})
+            .then((data)=> {createTable(data)})
+            .catch((e)=> {console.error(e)})
+            .finally(()=> {console.log("fetch 끝!")});
+        })
+        function createTable(data) {
+            const table = document.getElementById("tb");
+
+            table.innerHTML = "";
+
+            // console.log(data.ROWSET);
+            // console.log(data["ROWSET"]);
+            const rows = data.ROWSET.ROW;
+
+            const keys = Object.keys(rows[0]);
+            // console.log(keys);
+
+            const tr = document.createElement("tr");
+            for (const key of keys) {
+                const th = document.createElement("th");
+                th.appendChild(document.createTextNode(key));
+                tr.appendChild(th);
+            }
+            table.appendChild(tr);
+
+            for (const row of rows) {
+                const tr = document.createElement("tr");
+                for (const [key, val] of Object.entries(row)) {
+                    const td = document.createElement("td");
+                    td.appendChild(document.createTextNode(val));
+                    tr.appendChild(td);
+                }
+                table.appendChild(tr);
+            }
+        }
+    </script>
+</body>
+</html>

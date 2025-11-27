@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script>
+        class Animal {
+            // field
+            gender = "m";
+            // # field : private field
+            #age = 1;
+            // static field
+            static species = "animal";
+
+            constructor(name) {
+                this.name = name;
+            }
+
+            bark() {
+                console.log(`${this.name} : 짖다.`)
+            }
+
+            get age() {
+                return this.#age;
+            }
+
+            set age(i) {
+                this.#age = i;
+            }
+
+            static work() {
+                console.log(`${this.name} : 걷다.`)
+            }
+
+
+        }
+
+        const tiger = new Animal("티거");
+        console.log(tiger)
+
+        tiger.gender = "f";
+        console.log(tiger.gender);
+
+        tiger.age = 2;
+        console.log(tiger.age);
+        console.log(tiger.species);
+        console.log(Animal.species);
+        tiger.bark();
+        // tiger.work();
+        Animal.work();
+        console.log(tiger.name);
+
+        class Lion extends Animal {
+            constructor(name, i) {
+                // super : 부모
+                super(name);
+                // 부모의 필드
+                super.age = i;
+            }
+
+            // overriding
+            bark() {
+                console.log(`${this.name} : 크게 짖다.`)
+            }
+        }
+
+        const lion = new Lion("심바", 2);
+        console.log(lion);
+
+        console.log(lion.gender);
+        console.log(lion.age);
+        
+        console.log(lion.name);
+        console.log(lion.species);
+        console.log(Lion.species);
+        lion.bark();
+        Lion.work();
+
+    </script>
+</head>
+<body>
+    <pre>
+        class
+        - 객체 (instance) 생성을 위한 설계도
+        - prototype 기반
+        - 생성자 (constructor), 속성(field), 기능(method) 로 이루어짐
+        - 상속 시 extends 키워드 사용
+        - hoisting 될 때 생성자는 hoisting이 되지 않기 때문에 반드시 생성자 선언부터 하자
+    </pre>
+</body>
+</html>

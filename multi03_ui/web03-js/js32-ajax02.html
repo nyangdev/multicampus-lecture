@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="ajaxTest();">ajax</button>
+
+    <table border="1" id="tb"></table>
+
+    <script>
+        function ajaxTest() {
+            const xhr = new XMLHttpRequest();
+
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    const respText = xhr.responseText;
+
+                    // console.log(respText);
+
+                    // JSON 을 자바스크립트 객체로 바꿔줌.
+                    // JSON.parse : json to obj
+
+                    // 자바스크립트 객체를 json으로 바꿔줌.
+                    // JSON.stringify : obj to json
+
+                    const jsonToObj = JSON.parse(respText);
+                    // console.log(jsonToObj);
+
+                    createTable(jsonToObj);
+                }
+            }
+
+            function createTable(data) {
+                const table = document.getElementById("tb");
+
+                table.innerHTML = "";
+
+                // console.log(data.ROWSET);
+                // console.log(data["ROWSET"]);
+
+                const rows = data.ROWSET.ROW;
+                
+                const keys = Object.keys(rows[0]);
+                // console.log(keys)
+
+                const tr = document.createElement("tr");
+                // for ~ in : index랑 item이 같이 들어옴
+                // for ~ of : item만 가져옴
+                // for (const key in keys) 이렇게 사용하게되면 인덱스만 들어옴.
+                for (const key of keys) {
+                    const th = document.createElement("th");
+                    th.appendChild(document.createTextNode(key));
+                    tr.appendChild(th);
+                }
+                table.appendChild(tr);
+
+                for (const row of rows) {
+                    const tr = document.createElement("tr");
+                    for (const [key, val] of Object.entries(row)) {
+                        const td = document.createElement("td");
+                        td.appendChild(document.createTextNode(val));
+                        tr.appendChild(td);
+                    }
+                    table.appendChild(tr);
+                }
+            }
+
+            xhr.open("GET", "emplist.json");
+            xhr.send();
+        }
+    </script>
+
+</body>
+</html>

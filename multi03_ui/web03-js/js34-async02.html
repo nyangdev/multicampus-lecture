@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="asyncTest();">async</button>
+
+    <table border="1" id="tb"></table>
+
+    <script>
+        function createTable(data) { 
+            const table = document.getElementById("tb");
+
+            table.innerHTML = "";
+
+            // console.log(data.ROWSET);
+            // console.log(data["ROWSET"]);
+            const rows = data.ROWSET.ROW;
+
+            const keys = Object.keys(rows[0]);
+            // console.log(keys);
+
+            const tr = document.createElement("tr");
+            for (const key of keys) {
+                const th = document.createElement("th");
+                th.appendChild(document.createTextNode(key));
+                tr.appendChild(th);
+            }
+            table.appendChild(tr);
+
+            for (const row of rows) {
+                const tr = document.createElement("tr");
+                for (const [key, val] of Object.entries(row)) {
+                    const td = document.createElement("td");
+                    td.appendChild(document.createTextNode(val));
+                    tr.appendChild(td);
+                }
+                table.appendChild(tr);
+            }
+        }
+        
+        // async await을 사용하여 비동기 통신으로 emplist.json을 가지고 와서 
+        // createTable 함수로 테이블을 만들자!
+        async function asyncTest() {
+            function myPromise(url) {
+                return new Promise((resolve)=> {
+                const xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = ()=> {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        const jsonToObj = JSON.parse(xhr.responseText);
+                        resolve(jsonToObj); 
+                    }
+                };
+
+                xhr.open("GET", url);
+                xhr.send();
+                });
+            }
+
+            const data = await myPromise("emplist.json");  
+            createTable(data);
+        }
+
+        function myPromise(url) {
+            return new Promise((resolve)=>{
+                const xhr = new XMLHttpRequest();
+
+                xhr.onreadystatechange = ()=>{
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        const jsonToObj = JSON.parse(xhr.responseText);
+                        resolve(jsonToObj);
+                    }
+                }
+
+                xhr.open("GET", url)
+                xhr.send()
+            });
+        }
+
+        async function asynncTest() {
+
+            // myPromise("emplist.json")
+            // .then((data)=>{createTable(data)})
+            const data = await myPromise();
+            
+        }
+
+    </script>
+</body>
+</html>

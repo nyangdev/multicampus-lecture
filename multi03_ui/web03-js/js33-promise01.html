@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <pre>
+        비동기 작업의 순서
+        - 비동기 작업은 결과를 기다리지 않는다.
+    </pre>
+
+    <pre>
+        callback hell
+        - 비동기 작업을 순차적으로 실행하고 싶을 때, callback 함수의 중첩이 생긴다.
+        - callback 함수의 중첩이 너무 많아지는 것을 의미
+    </pre>
+
+    <pre>
+        promise
+        상태
+        - pending : 작업이 대기중
+        - fullfilled : 작업이 성공
+        - rejected : 작업이 실패
+    </pre>
+
+    <pre>
+        후속 처리 method
+        - then : promise가 fullfilled 일 때 실행
+        - catch : promise가 rejected 일 때 실행
+        - finally : promise의 상태와 상관없이 무조건 실행
+    </pre>
+
+    <script>
+        const pre = document.querySelectorAll("pre");
+
+        pre[0].addEventListener("click", asyncFunc);
+        pre[1].addEventListener("click", callbackHell);
+        pre[2].addEventListener("click", promiseFunc01);
+        pre[3].addEventListener("click", promiseFunc02);
+
+        function asyncFunc() {
+            console.log("시작");
+
+            setTimeout(()=>{
+                console.log("1");
+            }, 1000);
+            setTimeout(()=>{
+                console.log("2");
+            }, 1000);
+            setTimeout(()=>{
+                console.log("3");
+            }, 1000);
+            setTimeout(()=>{
+                console.log("4");
+            }, 1000);
+
+            console.log("끝");
+        }
+
+        function callbackHell() {
+            console.log("시작");
+            setTimeout(()=>{
+                console.log("1");
+                setTimeout(()=>{
+                    console.log("2");
+                    setTimeout(()=>{
+                        console.log("3");
+                        setTimeout(()=>{
+                            console.log("4");
+                            console.log("끝");
+                        }, 1000);
+                    }, 1000);
+                }, 1000);
+            }, 1000);
+        }
+
+        function promiseFunc01() {
+            function job() {
+                // promise 객체로 리턴하도록 함
+                return new Promise((resolve)=>{
+                    setTimeout(()=>{resolve();}, 1000);
+                });
+            }
+
+            job()
+            .then(()=>{
+                console.log("시작");
+                return job();
+            })
+            .then(()=>{
+                console.log("1");
+                return job();
+            })
+            .then(()=>{
+                console.log("2");
+                return job();
+            })
+            .then(()=>{
+                console.log("3");
+                return job();
+            })
+            .then(()=>{
+                console.log("4");
+                return job();
+            })
+            .finally(()=>{
+                console.log("끝");
+            });
+        }
+
+        function promiseFunc02() {
+            function job() {
+                // resolve : 성공한 경우의 callback
+                // reject : 실패한 경우의 callback
+                return new Promise((resolve, reject)=>{
+                    setTimeout(() => {
+                        const success = false;
+
+                        if (success) {
+                            resolve();
+                        } else {
+                            reject();
+                        }
+                    }, 1000);
+                });
+            }
+
+            let count = 0;
+            const resolveFunc = ()=>{
+                console.log(count == 0? "시작": count);
+                count++;
+                return job();
+            }
+            const rejectFunc = ()=>{
+                console.log("error!");
+                throw new Error();
+            }
+
+            job()
+            .then(resolveFunc, rejectFunc)
+            .then(resolveFunc, rejectFunc)
+            .then(resolveFunc, rejectFunc)
+            .then(resolveFunc, rejectFunc)
+            .then(resolveFunc, rejectFunc)
+            .then(()=>{console.log("끝");})
+            .catch(()=>{console.log("error catch!");})
+            
+        }
+    </script>
+</body>
+</html>

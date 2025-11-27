@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="promiseTest();">promise</button>
+
+    <table border="1" id="tb"></table>
+
+    <script>
+        function createTable(data) {
+            const table = document.getElementById("tb");
+
+            table.innerHTML = "";
+
+            // console.log(data.ROWSET);
+            // console.log(data["ROWSET"]);
+
+            const rows = data.ROWSET.ROW;
+            
+            const keys = Object.keys(rows[0]);
+            // console.log(keys)
+
+            const tr = document.createElement("tr");
+            // for ~ in : index랑 item이 같이 들어옴
+            // for ~ of : item만 가져옴
+            // for (const key in keys) 이렇게 사용하게되면 인덱스만 들어옴.
+            for (const key of keys) {
+                const th = document.createElement("th");
+                th.appendChild(document.createTextNode(key));
+                tr.appendChild(th);
+            }
+            table.appendChild(tr);
+
+            for (const row of rows) {
+                const tr = document.createElement("tr");
+                for (const [key, val] of Object.entries(row)) {
+                    const td = document.createElement("td");
+                    td.appendChild(document.createTextNode(val));
+                    tr.appendChild(td);
+                }
+                table.appendChild(tr);
+            }
+        }
+
+function promiseTest() {
+            // promise 사용해서 
+            // emplist.json 요청해서 응답받은 데이터를 
+            // createTable에 전달해서 
+            // 실제로 테이블 만들기
+
+            function myPromise(url) {
+                return new Promise((resolve)=>{
+                    const xhr = new XMLHttpRequest();
+
+                    xhr.onreadystatechange = ()=>{
+                        if (xhr.readyState === 4 && xhr.status === 200) {
+                            const jsonToObj = JSON.parse(xhr.responseText);
+                            resolve(jsonToObj);
+                        }
+                    }
+
+                    xhr.open("GET", url)
+                    xhr.send()
+                });
+            }
+
+            myPromise("emplist.json")
+            .then((data)=>{createTable(data)})
+            
+        }
+
+    </script>
+</body>
+</html>
